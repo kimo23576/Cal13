@@ -1,0 +1,1917 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="author" content="Digit Grove">
+  <meta name="description" content="محول الوحدات الذكي: نظام متكامل لتحويل الوحدات والقيم عبر مجموعة واسعة من الأدوات المتخصصة مع واجهة استخدام عصرية وتجربة استخدام احترافية.">
+  <meta name="keywords" content="محول وحدات, تحويل العملات, تحويل الوحدات, حاسبات, أدوات رياضية, أدوات مالية, تحويل قياسات">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title data-ar="محول الوحدات الذكي" data-en="Smart Unit Converter">محول الوحدات الذكي</title>
+  <!-- Font Awesome and Google Fonts -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;700&display=swap" rel="stylesheet">
+  <!-- Bootstrap and MDB -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.5.8/css/mdb.min.css" rel="stylesheet">
+  <!-- Custom Styles -->
+  <link href="css/style.min.css" rel="stylesheet">
+  <link href="css/styles.css" rel="stylesheet">
+  <link href="css/styles-index.css" rel="stylesheet">
+  <style>
+    /* نظام ألوان فاخر باستخدام درجات البني الفاتح الزاهي، الأبيض، الأسود، الذهبي والبني الغامق */
+    :root {
+      --primary-color: #4E342E;
+      --golden-color:  #FFD700;
+      --secondary-color: #A67B5B;
+      --accent-color: #FFFFFF;
+      --light-bg: #FDFDFD;
+      --container-bg: #FFFFFF;
+      --text-color: #000000;
+      --header-bg: linear-gradient(90deg, #A67B5B, #4E342E);
+      --footer-bg: #4E342E;
+      --footer-text: #FFFFFF;
+      --shadow-color: rgba(0, 0, 0, 0.15);
+    }
+    /* الوضع الليلي */
+    .night-mode {
+      background-color: #2E2E2E;
+      color: #E0E0E0;
+    }
+    .night-mode a { color: #FFD700; }
+    /* الخطوط الأساسية واتجاه النص */
+    body {
+      font-family: 'Cairo', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: var(--light-bg);
+      color: var(--text-color);
+      line-height: 1.8;
+      direction: rtl;
+      transition: background-color 0.3s, color 0.3s;
+    }
+    /* توسيط النصوص داخل الأقسام (مع اتصال النص من جهة اليمين) */
+    section, .calc-card, .section-description, h1, h2, h3, p, li {
+      text-align: right;
+    }
+    /* الهيدر والقائمة */
+    header {
+      background: var(--header-bg);
+      color: #fff;
+      padding: 20px 10px 40px;
+      text-align: center;
+      box-shadow: 0 2px 5px var(--shadow-color);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    /* أزرار اللغة والوضع والإعدادات: نقلها إلى أسفل حافة الهيدر وعلى الجهة اليسرى */
+    .header-controls {
+      position: absolute;
+      bottom: 5px;
+      left: 10px;
+      display: flex;
+      gap: 5px;
+    }
+    #langToggle, #modeToggle, #settingsToggle {
+      padding: 8px 12px;
+      background-color: var(--secondary-color);
+      border: 1px solid var(--golden-color);
+      border-radius: 4px;
+      color: var(--accent-color);
+      cursor: pointer;
+      transition: background-color 0.3s, transform 0.3s;
+      font-size: 0.9rem;
+    }
+    #langToggle:hover, #modeToggle:hover, #settingsToggle:hover {
+      background-color: var(--golden-color);
+      transform: scale(1.05);
+    }
+    /* استبدال نص زر الوضع الليلي بأيقونة */
+    #modeToggle i { font-size: 1.2rem; }
+    /* العنوان في الهيدر (محاذاة في الوسط) */
+    header h2 {
+      margin: 5px 0 15px;
+      font-size: 3rem;
+      color: var(--golden-color);
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+      text-align: center;
+    }
+    /* قائمة التنقل الرئيسية */
+    .tab-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 15px;
+      margin-top: 20px;
+      margin-bottom: 10px;
+    }
+    .tab-link {
+      text-decoration: none;
+      padding: 12px 22px;
+      border: 2px solid var(--secondary-color);
+      border-radius: 8px;
+      background-color: var(--container-bg);
+      color: var(--primary-color);
+      transition: background-color 0.3s, transform 0.3s, color 0.3s, box-shadow 0.3s;
+      font-size: 1.1rem;
+      display: inline-block;
+      box-shadow: 0 2px 5px var(--shadow-color);
+    }
+    .tab-link:hover, .tab-link:focus {
+      background-color: var(--secondary-color);
+      color: var(--accent-color);
+      transform: scale(1.05);
+      box-shadow: 0 3px 8px var(--shadow-color);
+      outline: none;
+    }
+    /* قائمة الهامبرغر للهواتف */
+    .hamburger {
+      display: none;
+      position: absolute;
+      right: 20px;
+      top: 20px;
+      font-size: 2rem;
+      cursor: pointer;
+      color: var(--accent-color);
+    }
+    @media (max-width: 768px) {
+      .tab-container { display: none; }
+      .hamburger { display: block; }
+    }
+    /* محتوى الصفحة */
+    main { margin: 20px; }
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      background-color: var(--container-bg);
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 30px var(--shadow-color);
+    }
+    /* تحسين إطارات الأقسام وعناوينها */
+    section {
+      padding: 40px 20px;
+      margin-bottom: 30px;
+      border: 1px solid var(--secondary-color);
+      border-radius: 10px;
+      box-shadow: 0 2px 8px var(--shadow-color);
+    }
+    section h1, section h2 {
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    }
+    .section-description { margin-bottom: 30px; color: var(--secondary-color); }
+    /* بطاقات الحاسبات */
+    .calc-card {
+      border: 1px solid var(--secondary-color);
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 30px;
+      background-color: var(--container-bg);
+      box-shadow: 0 3px 10px var(--shadow-color);
+      transition: transform 0.3s;
+    }
+    .calc-card:hover { transform: scale(1.02); }
+    .calc-card h3 { color: var(--golden-color); font-size: 1.5rem; margin-bottom: 15px; }
+    .calc-form-group { margin-bottom: 15px; }
+    .calc-form-group label { font-weight: bold; margin-bottom: 5px; display: block; }
+    .calc-form-group input, .calc-form-group select {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid var(--secondary-color);
+      border-radius: 4px;
+    }
+    .calc-btn {
+      padding: 10px 20px;
+      background-color: var(--secondary-color);
+      color: var(--accent-color);
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      margin: 5px;
+    }
+    .calc-btn:hover { background-color: var(--golden-color); }
+    .calc-result {
+      margin-top: 20px;
+      padding: 15px;
+      border: 1px solid var(--secondary-color);
+      border-radius: 5px;
+      background-color: #fcfcfc;
+      position: relative;
+    }
+    .result-actions { margin-top: 10px; text-align: center; }
+    /* أيقونات الأقسام */
+    .section-icon { font-size: 3rem; color: var(--golden-color); margin-bottom: 10px; }
+    /* تحسين أزرار المشاركة والطباعة (استخدام أيقونات صغيرة) */
+    .share-print-buttons button {
+      background: none;
+      border: none;
+      color: var(--primary-color);
+      font-size: 1.5rem;
+      cursor: pointer;
+      margin: 0 5px;
+    }
+    /* الفوتر المُحسَّن */
+    footer {
+      background: var(--footer-bg);
+      color: var(--footer-text);
+      padding: 20px 10px;
+      text-align: center;
+      border-top: 3px solid var(--golden-color);
+      margin-top: 30px;
+    }
+    footer .social a {
+      color: var(--footer-text);
+      margin: 0 8px;
+      font-size: 1.5rem;
+      transition: color 0.3s;
+    }
+    footer .social a:hover { color: var(--golden-color); }
+    /* زر العودة للأعلى */
+    #backToTop {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      width: 45px;
+      height: 45px;
+      background-color: var(--secondary-color);
+      color: var(--accent-color);
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      display: none;
+      z-index: 100;
+      text-align: center;
+      line-height: 45px;
+      font-size: 1.5rem;
+      box-shadow: 0 2px 5px var(--shadow-color);
+    }
+    /* تحسين استجابة التصميم */
+    @media (max-width: 768px) {
+      header h2 { font-size: 2rem; }
+      .tab-link { flex: 1 1 45%; font-size: 1rem; }
+    }
+  </style>
+</head>
+<body data-lang="ar">
+  <!-- الهيدر مع قائمة تنقل ثابتة -->
+  <header>
+    <div class="header-controls">
+      <button id="langToggle" data-ar="EN" data-en="AR">EN</button>
+      <button id="modeToggle" data-ar='&#xf186;' data-en='&#xf185;'><i class="fas fa-moon"></i></button>
+      <button id="settingsToggle" data-ar='<i class="fas fa-cog"></i>' data-en='<i class="fas fa-cog"></i>'><i class="fas fa-cog"></i></button>
+    </div>
+    <span class="hamburger" tabindex="0" aria-label="قائمة التنقل"><i class="fas fa-bars"></i></span>
+    <h2 id="headerTitle" data-ar="محول الوحدات الذكي" data-en="Smart Unit Converter">محول الوحدات الذكي</h2>
+    <nav class="tab-container">
+      <a href="#home" class="tab-link" data-ar="الرئيسية" data-en="Home">الرئيسية</a>
+      <a href="#about" class="tab-link" data-ar="حول النظام" data-en="About">حول النظام</a>
+      <a href="#userManual" class="tab-link" data-ar="دليل المستخدم" data-en="User Manual">دليل المستخدم</a>
+      <a href="#categories" class="tab-link" data-ar="الفئات" data-en="Categories">الفئات</a>
+      <a href="#tools" class="tab-link" data-ar="الأدوات" data-en="Tools">الأدوات</a>
+    </nav>
+  </header>
+
+  <!-- نافذة إعدادات النص -->
+  <div class="modal fade" id="settingsModal" tabindex="-1" role="dialog" aria-labelledby="settingsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content" style="border: 2px solid var(--secondary-color);">
+        <div class="modal-header" style="background: var(--secondary-color);">
+          <h5 class="modal-title" id="settingsModalLabel" style="color: var(--accent-color);">إعدادات الخط</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="إغلاق" style="color: var(--accent-color);">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label>حجم النص</label>
+            <select id="textSizeSelect" class="form-control">
+              <option value="14px">14px</option>
+              <option value="16px" selected>16px</option>
+              <option value="18px">18px</option>
+              <option value="20px">20px</option>
+              <option value="22px">22px</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>نوع الخط</label>
+            <select id="fontSelect" class="form-control">
+              <option value="'Cairo', sans-serif" selected>Cairo</option>
+              <option value="'Amiri', serif">Amiri</option>
+              <option value="'Lateef', cursive">Lateef</option>
+              <option value="'Changa', sans-serif">Changa</option>
+            </select>
+          </div>
+        </div>
+        <div class="modal-footer" style="background: var(--secondary-color);">
+          <button type="button" class="calc-btn" data-dismiss="modal" onclick="applySettings()" style="background-color: var(--golden-color);">تطبيق</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- محتوى الصفحة بالكامل -->
+  <main>
+    <div class="container">
+      <!-- قسم الرئيسية -->
+      <section id="home">
+        <div class="jumbotron" style="background-color: #F5F5DC; border: 2px solid var(--secondary-color); border-radius: 8px; padding: 40px;">
+          <h1 class="card-title" style="font-size: 3.5rem; font-weight: bold; color: var(--primary-color); margin-bottom: 10px;" data-ar="محول الوحدات الذكي" data-en="Smart Unit Converter">محول الوحدات الذكي</h1>
+          <p style="font-size: 1.2rem; color: #4E342E; font-weight: 600;" data-ar="حوّل بين مختلف الوحدات والقيم باستخدام نظام ذكي متكامل يقدم أدوات تحويل دقيقة وسريعة في جميع المجالات." data-en="Convert between various units and values using our integrated smart system that delivers fast and accurate conversion tools across all fields.">
+            حوّل بين مختلف الوحدات والقيم باستخدام نظام ذكي متكامل يقدم أدوات تحويل دقيقة وسريعة في جميع المجالات.
+          </p>
+        </div>
+      </section>
+
+      <!-- قسم حول النظام -->
+      <section id="about">
+        <h1 data-ar="حول النظام" data-en="About">حول النظام</h1>
+        <p class="section-description" data-ar="يهدف نظام محول الوحدات الذكي إلى تسهيل التحويلات بين الوحدات المختلفة بدقة وسرعة عالية مع واجهة استخدام عصرية وتصميم جذاب." data-en="The Smart Unit Converter is designed to simplify conversions between different units quickly and accurately with a modern and attractive interface.">
+          يهدف نظام محول الوحدات الذكي إلى تسهيل التحويلات بين الوحدات المختلفة بدقة وسرعة عالية مع واجهة استخدام عصرية وتصميم جذاب.
+        </p>
+      </section>
+
+      <!-- قسم دليل المستخدم -->
+      <section id="userManual">
+        <h1 data-ar="دليل المستخدم" data-en="User Manual">دليل المستخدم</h1>
+        <p class="section-description" data-ar="في هذا القسم ستجد شرحاً مفصلاً لكيفية استخدام النظام وجميع الأدوات والحاسبات المدمجة، بالإضافة إلى نصائح وحيل لتحسين تجربة الاستخدام." data-en="In this section, you will find detailed instructions on how to use the system and all integrated tools and calculators, along with tips and tricks to enhance your user experience.">
+          في هذا القسم ستجد شرحاً مفصلاً لكيفية استخدام النظام وجميع الأدوات والحاسبات المدمجة، بالإضافة إلى نصائح وحيل لتحسين تجربة الاستخدام.
+        </p>
+        <ul>
+          <li data-ar="كيفية التنقل بين الأقسام باستخدام القائمة العلوية." data-en="How to navigate between sections using the top menu.">كيفية التنقل بين الأقسام باستخدام القائمة العلوية.</li>
+          <li data-ar="شرح كيفية استخدام كل أداة تحويل مع الأمثلة التوضيحية." data-en="Explanation on how to use each conversion tool with illustrative examples.">شرح كيفية استخدام كل أداة تحويل مع الأمثلة التوضيحية.</li>
+          <li data-ar="طرق نسخ ومشاركة النتائج باستخدام أزرار الحاسبة." data-en="How to copy and share results using the calculator buttons.">طرق نسخ ومشاركة النتائج باستخدام أزرار الحاسبة.</li>
+          <li data-ar="إرشادات لتحسين تجربة الاستخدام واستغلال جميع المميزات المتاحة." data-en="Guidelines to enhance your experience and make full use of all available features.">إرشادات لتحسين تجربة الاستخدام واستغلال جميع المميزات المتاحة.</li>
+        </ul>
+      </section>
+
+      <!-- قسم الفئات: 25 فئة تحويل -->
+      <section id="categories">
+        <h1 data-ar="الفئات" data-en="Categories">الفئات</h1>
+        <p class="section-description" data-ar="في هذا القسم تجد 25 فئة من الحاسبات لتحويل الوحدات المختلفة. اختر الفئة المناسبة لبدء عملية التحويل بدقة واحتراف." data-en="In this section, you will find 25 categories of calculators for converting various units. Choose the appropriate category to start converting accurately and professionally.">
+          في هذا القسم تجد 25 فئة من الحاسبات لتحويل الوحدات المختلفة. اختر الفئة المناسبة لبدء عملية التحويل بدقة واحتراف.
+        </p>
+        <div class="row">
+          <!-- 1. درجة الحرارة -->
+          <div class="col-md-4 mb-4">
+            <div class="calc-card">
+              <div class="text-center">
+                <i class="fas fa-thermometer-half section-icon"></i>
+                <h3 data-ar="درجة الحرارة" data-en="Temperature">درجة الحرارة</h3>
+                <p class="section-description" data-ar="تحويل درجات الحرارة بين المئوية، الفهرنهايت، الكلفن وRankine." data-en="Convert temperature between Celsius, Fahrenheit, Kelvin, and Rankine.">
+                  تحويل درجات الحرارة بين المئوية، الفهرنهايت، الكلفن وRankine.
+                </p>
+              </div>
+              <button class="calc-btn" data-toggle="collapse" data-target="#calcTemp" aria-expanded="false" aria-controls="calcTemp" data-ar="فتح الحاسبة" data-en="Open Calculator">فتح الحاسبة</button>
+              <div class="collapse" id="calcTemp">
+                <div class="calc-card mt-3">
+                  <form id="tempForm">
+                    <div class="calc-form-group">
+                      <label data-ar="القيمة:" data-en="Value:">القيمة:</label>
+                      <input type="number" name="value" placeholder="ادخل القيمة">
+                    </div>
+                    <div class="calc-form-group">
+                      <label data-ar="من:" data-en="From:">من:</label>
+                      <select name="from">
+                        <option value="C" data-ar="مئوية" data-en="Celsius">مئوية</option>
+                        <option value="F" data-ar="فهرنهايت" data-en="Fahrenheit">فهرنهايت</option>
+                        <option value="K" data-ar="كلفن" data-en="Kelvin">كلفن</option>
+                        <option value="R" data-ar="Rankine" data-en="Rankine">Rankine</option>
+                      </select>
+                    </div>
+                    <div class="calc-form-group">
+                      <label data-ar="إلى:" data-en="To:">إلى:</label>
+                      <select name="to">
+                        <option value="C" data-ar="مئوية" data-en="Celsius">مئوية</option>
+                        <option value="F" data-ar="فهرنهايت" data-en="Fahrenheit">فهرنهايت</option>
+                        <option value="K" data-ar="كلفن" data-en="Kelvin">كلفن</option>
+                        <option value="R" data-ar="Rankine" data-en="Rankine">Rankine</option>
+                      </select>
+                    </div>
+                    <button type="button" class="calc-btn" onclick="convertTemp()" data-ar="حوّل" data-en="Convert">حوّل</button>
+                  </form>
+                  <div id="tempResult" class="calc-result mt-3" style="display: none;"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- 2. الوزن -->
+          <div class="col-md-4 mb-4">
+            <div class="calc-card">
+              <div class="text-center">
+                <i class="fas fa-balance-scale section-icon"></i>
+                <h3 data-ar="الوزن" data-en="Weight">الوزن</h3>
+                <p class="section-description" data-ar="تحويل الوزن بين الكيلوغرام، الغرام، الرطل، الأوقية، والطن." data-en="Convert weight between Kilogram, Gram, Pound, Ounce, and Ton.">
+                  تحويل الوزن بين الكيلوغرام، الغرام، الرطل، الأوقية، والطن.
+                </p>
+              </div>
+              <button class="calc-btn" data-toggle="collapse" data-target="#calcWeight" aria-expanded="false" aria-controls="calcWeight" data-ar="فتح الحاسبة" data-en="Open Calculator">فتح الحاسبة</button>
+              <div class="collapse" id="calcWeight">
+                <div class="calc-card mt-3">
+                  <form id="weightForm">
+                    <div class="calc-form-group">
+                      <label data-ar="القيمة:" data-en="Value:">القيمة:</label>
+                      <input type="number" name="value" placeholder="ادخل القيمة">
+                    </div>
+                    <div class="calc-form-group">
+                      <label data-ar="من:" data-en="From:">من:</label>
+                      <select name="from">
+                        <option value="kg" data-ar="كيلوغرام" data-en="Kilogram">كيلوغرام</option>
+                        <option value="g" data-ar="غرام" data-en="Gram">غرام</option>
+                        <option value="lb" data-ar="رطل" data-en="Pound">رطل</option>
+                        <option value="oz" data-ar="أوقية" data-en="Ounce">أوقية</option>
+                        <option value="ton" data-ar="طن" data-en="Ton">طن</option>
+                      </select>
+                    </div>
+                    <div class="calc-form-group">
+                      <label data-ar="إلى:" data-en="To:">إلى:</label>
+                      <select name="to">
+                        <option value="kg" data-ar="كيلوغرام" data-en="Kilogram">كيلوغرام</option>
+                        <option value="g" data-ar="غرام" data-en="Gram">غرام</option>
+                        <option value="lb" data-ar="رطل" data-en="Pound">رطل</option>
+                        <option value="oz" data-ar="أوقية" data-en="Ounce">أوقية</option>
+                        <option value="ton" data-ar="طن" data-en="Ton">طن</option>
+                      </select>
+                    </div>
+                    <button type="button" class="calc-btn" onclick="convertWeight()" data-ar="حوّل" data-en="Convert">حوّل</button>
+                  </form>
+                  <div id="weightResult" class="calc-result mt-3" style="display: none;"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- 3. الطول -->
+          <div class="col-md-4 mb-4">
+            <div class="calc-card">
+              <div class="text-center">
+                <i class="fas fa-ruler-horizontal section-icon"></i>
+                <h3 data-ar="الطول" data-en="Length">الطول</h3>
+                <p class="section-description" data-ar="تحويل القياسات الطولية بين المتر، الكيلومتر، الميل، السنتيمتر، البوصة، القدم، واليرد." data-en="Convert length between Meter, Kilometer, Mile, Centimeter, Inch, Foot, and Yard.">
+                  تحويل القياسات الطولية بين المتر، الكيلومتر، الميل، السنتيمتر، البوصة، القدم، واليرد.
+                </p>
+              </div>
+              <button class="calc-btn" data-toggle="collapse" data-target="#calcLength" aria-expanded="false" aria-controls="calcLength" data-ar="فتح الحاسبة" data-en="Open Calculator">فتح الحاسبة</button>
+              <div class="collapse" id="calcLength">
+                <div class="calc-card mt-3">
+                  <form id="lengthForm">
+                    <div class="calc-form-group">
+                      <label data-ar="القيمة:" data-en="Value:">القيمة:</label>
+                      <input type="number" name="value" placeholder="ادخل القيمة">
+                    </div>
+                    <div class="calc-form-group">
+                      <label data-ar="من:" data-en="From:">من:</label>
+                      <select name="from">
+                        <option value="m" data-ar="متر" data-en="Meter">متر</option>
+                        <option value="km" data-ar="كيلومتر" data-en="Kilometer">كيلومتر</option>
+                        <option value="mi" data-ar="ميل" data-en="Mile">ميل</option>
+                        <option value="cm" data-ar="سنتيمتر" data-en="Centimeter">سنتيمتر</option>
+                        <option value="in" data-ar="بوصة" data-en="Inch">بوصة</option>
+                        <option value="ft" data-ar="قدم" data-en="Foot">قدم</option>
+                        <option value="yd" data-ar="يرد" data-en="Yard">يرد</option>
+                      </select>
+                    </div>
+                    <div class="calc-form-group">
+                      <label data-ar="إلى:" data-en="To:">إلى:</label>
+                      <select name="to">
+                        <option value="m" data-ar="متر" data-en="Meter">متر</option>
+                        <option value="km" data-ar="كيلومتر" data-en="Kilometer">كيلومتر</option>
+                        <option value="mi" data-ar="ميل" data-en="Mile">ميل</option>
+                        <option value="cm" data-ar="سنتيمتر" data-en="Centimeter">سنتيمتر</option>
+                        <option value="in" data-ar="بوصة" data-en="Inch">بوصة</option>
+                        <option value="ft" data-ar="قدم" data-en="Foot">قدم</option>
+                        <option value="yd" data-ar="يرد" data-en="Yard">يرد</option>
+                      </select>
+                    </div>
+                    <button type="button" class="calc-btn" onclick="convertLength()" data-ar="حوّل" data-en="Convert">حوّل</button>
+                  </form>
+                  <div id="lengthResult" class="calc-result mt-3" style="display: none;"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- 4. المساحة -->
+          <div class="col-md-4 mb-4">
+            <div class="calc-card">
+              <div class="text-center">
+                <i class="fas fa-border-all section-icon"></i>
+                <h3 data-ar="المساحة" data-en="Area">المساحة</h3>
+                <p class="section-description" data-ar="تحويل المساحة بين متر مربع، كيلومتر مربع، قدم مربع، يرد مربع، وأكر." data-en="Convert area between m², km², ft², yd², and Acre.">
+                  تحويل المساحة بين متر مربع، كيلومتر مربع، قدم مربع، يرد مربع، وأكر.
+                </p>
+              </div>
+              <button class="calc-btn" data-toggle="collapse" data-target="#calcArea" aria-expanded="false" aria-controls="calcArea" data-ar="فتح الحاسبة" data-en="Open Calculator">فتح الحاسبة</button>
+              <div class="collapse" id="calcArea">
+                <div class="calc-card mt-3">
+                  <form id="areaForm">
+                    <div class="calc-form-group">
+                      <label data-ar="القيمة:" data-en="Value:">القيمة:</label>
+                      <input type="number" name="value" placeholder="ادخل القيمة">
+                    </div>
+                    <div class="calc-form-group">
+                      <label data-ar="من:" data-en="From:">من:</label>
+                      <select name="from">
+                        <option value="m2" data-ar="متر مربع" data-en="m²">متر مربع</option>
+                        <option value="km2" data-ar="كيلومتر مربع" data-en="km²">كيلومتر مربع</option>
+                        <option value="ft2" data-ar="قدم مربع" data-en="ft²">قدم مربع</option>
+                        <option value="yd2" data-ar="يرد مربع" data-en="yd²">يرد مربع</option>
+                        <option value="acre" data-ar="أكر" data-en="Acre">أكر</option>
+                      </select>
+                    </div>
+                    <div class="calc-form-group">
+                      <label data-ar="إلى:" data-en="To:">إلى:</label>
+                      <select name="to">
+                        <option value="m2" data-ar="متر مربع" data-en="m²">متر مربع</option>
+                        <option value="km2" data-ar="كيلومتر مربع" data-en="km²">كيلومتر مربع</option>
+                        <option value="ft2" data-ar="قدم مربع" data-en="ft²">قدم مربع</option>
+                        <option value="yd2" data-ar="يرد مربع" data-en="yd²">يرد مربع</option>
+                        <option value="acre" data-ar="أكر" data-en="Acre">أكر</option>
+                      </select>
+                    </div>
+                    <button type="button" class="calc-btn" onclick="convertArea()" data-ar="حوّل" data-en="Convert">حوّل</button>
+                  </form>
+                  <div id="areaResult" class="calc-result mt-3" style="display: none;"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- 5. الحجم -->
+          <div class="col-md-4 mb-4">
+            <div class="calc-card">
+              <div class="text-center">
+                <i class="fas fa-cube section-icon"></i>
+                <h3 data-ar="الحجم" data-en="Volume">الحجم</h3>
+                <p class="section-description" data-ar="تحويل الحجم بين متر مكعب، لتر، جالون، مليلتر، وقد قدم مكعب." data-en="Convert volume between m³, Liter, Gallon, Milliliter, and ft³.">
+                  تحويل الحجم بين متر مكعب، لتر، جالون، مليلتر، وقد قدم مكعب.
+                </p>
+              </div>
+              <button class="calc-btn" data-toggle="collapse" data-target="#calcVolume" aria-expanded="false" aria-controls="calcVolume" data-ar="فتح الحاسبة" data-en="Open Calculator">فتح الحاسبة</button>
+              <div class="collapse" id="calcVolume">
+                <div class="calc-card mt-3">
+                  <form id="volumeForm">
+                    <div class="calc-form-group">
+                      <label data-ar="القيمة:" data-en="Value:">القيمة:</label>
+                      <input type="number" name="value" placeholder="ادخل القيمة">
+                    </div>
+                    <div class="calc-form-group">
+                      <label data-ar="من:" data-en="From:">من:</label>
+                      <select name="from">
+                        <option value="m3" data-ar="متر مكعب" data-en="m³">متر مكعب</option>
+                        <option value="l" data-ar="لتر" data-en="Liter">لتر</option>
+                        <option value="gal" data-ar="جالون" data-en="Gallon">جالون</option>
+                        <option value="ml" data-ar="مليلتر" data-en="Milliliter">مليلتر</option>
+                        <option value="ft3" data-ar="قدم مكعب" data-en="ft³">قدم مكعب</option>
+                      </select>
+                    </div>
+                    <div class="calc-form-group">
+                      <label data-ar="إلى:" data-en="To:">إلى:</label>
+                      <select name="to">
+                        <option value="m3" data-ar="متر مكعب" data-en="m³">متر مكعب</option>
+                        <option value="l" data-ar="لتر" data-en="Liter">لتر</option>
+                        <option value="gal" data-ar="جالون" data-en="Gallon">جالون</option>
+                        <option value="ml" data-ar="مليلتر" data-en="Milliliter">مليلتر</option>
+                        <option value="ft3" data-ar="قدم مكعب" data-en="ft³">قدم مكعب</option>
+                      </select>
+                    </div>
+                    <button type="button" class="calc-btn" onclick="convertVolume()" data-ar="حوّل" data-en="Convert">حوّل</button>
+                  </form>
+                  <div id="volumeResult" class="calc-result mt-3" style="display: none;"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- 6. السرعة -->
+          <div class="col-md-4 mb-4">
+            <div class="calc-card">
+              <div class="text-center">
+                <i class="fas fa-tachometer-alt section-icon"></i>
+                <h3 data-ar="السرعة" data-en="Speed">السرعة</h3>
+                <p class="section-description" data-ar="تحويل السرعة بين متر/ثانية، كم/ساعة، ميل/ساعة، والعقد." data-en="Convert speed between m/s, km/h, mph, and knot.">
+                  تحويل السرعة بين متر/ثانية، كم/ساعة، ميل/ساعة، والعقد.
+                </p>
+              </div>
+              <button class="calc-btn" data-toggle="collapse" data-target="#calcSpeed" aria-expanded="false" aria-controls="calcSpeed" data-ar="فتح الحاسبة" data-en="Open Calculator">فتح الحاسبة</button>
+              <div class="collapse" id="calcSpeed">
+                <div class="calc-card mt-3">
+                  <form id="speedForm">
+                    <div class="calc-form-group">
+                      <label data-ar="القيمة:" data-en="Value:">القيمة:</label>
+                      <input type="number" name="value" placeholder="ادخل القيمة">
+                    </div>
+                    <div class="calc-form-group">
+                      <label data-ar="من:" data-en="From:">من:</label>
+                      <select name="from">
+                        <option value="mps" data-ar="متر/ثانية" data-en="m/s">متر/ثانية</option>
+                        <option value="kmph" data-ar="كم/ساعة" data-en="km/h">كم/ساعة</option>
+                        <option value="mph" data-ar="ميل/ساعة" data-en="mph">ميل/ساعة</option>
+                        <option value="knot" data-ar="عقد" data-en="knot">عقد</option>
+                      </select>
+                    </div>
+                    <div class="calc-form-group">
+                      <label data-ar="إلى:" data-en="To:">إلى:</label>
+                      <select name="to">
+                        <option value="mps" data-ar="متر/ثانية" data-en="m/s">متر/ثانية</option>
+                        <option value="kmph" data-ar="كم/ساعة" data-en="km/h">كم/ساعة</option>
+                        <option value="mph" data-ar="ميل/ساعة" data-en="mph">ميل/ساعة</option>
+                        <option value="knot" data-ar="عقد" data-en="knot">عقد</option>
+                      </select>
+                    </div>
+                    <button type="button" class="calc-btn" onclick="convertSpeed()" data-ar="حوّل" data-en="Convert">حوّل</button>
+                  </form>
+                  <div id="speedResult" class="calc-result mt-3" style="display: none;"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- 7. الوقت -->
+          <div class="col-md-4 mb-4">
+            <div class="calc-card">
+              <div class="text-center">
+                <i class="fas fa-clock section-icon"></i>
+                <h3 data-ar="الوقت" data-en="Time">الوقت</h3>
+                <p class="section-description" data-ar="تحويل الوقت بين الثانية، الدقيقة، الساعة، واليوم." data-en="Convert time between Second, Minute, Hour, and Day.">
+                  تحويل الوقت بين الثانية، الدقيقة، الساعة، واليوم.
+                </p>
+              </div>
+              <button class="calc-btn" data-toggle="collapse" data-target="#calcTime" aria-expanded="false" aria-controls="calcTime" data-ar="فتح الحاسبة" data-en="Open Calculator">فتح الحاسبة</button>
+              <div class="collapse" id="calcTime">
+                <div class="calc-card mt-3">
+                  <form id="timeForm">
+                    <div class="calc-form-group">
+                      <label data-ar="القيمة:" data-en="Value:">القيمة:</label>
+                      <input type="number" name="value" placeholder="ادخل القيمة">
+                    </div>
+                    <div class="calc-form-group">
+                      <label data-ar="من:" data-en="From:">من:</label>
+                      <select name="from">
+                        <option value="s" data-ar="ثانية" data-en="Second">ثانية</option>
+                        <option value="min" data-ar="دقيقة" data-en="Minute">دقيقة</option>
+                        <option value="h" data-ar="ساعة" data-en="Hour">ساعة</option>
+                        <option value="day" data-ar="يوم" data-en="Day">يوم</option>
+                      </select>
+                    </div>
+                    <div class="calc-form-group">
+                      <label data-ar="إلى:" data-en="To:">إلى:</label>
+                      <select name="to">
+                        <option value="s" data-ar="ثانية" data-en="Second">ثانية</option>
+                        <option value="min" data-ar="دقيقة" data-en="Minute">دقيقة</option>
+                        <option value="h" data-ar="ساعة" data-en="Hour">ساعة</option>
+                        <option value="day" data-ar="يوم" data-en="Day">يوم</option>
+                      </select>
+                    </div>
+                    <button type="button" class="calc-btn" onclick="convertTime()" data-ar="حوّل" data-en="Convert">حوّل</button>
+                  </form>
+                  <div id="timeResult" class="calc-result mt-3" style="display: none;"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- 8. الضغط -->
+          <div class="col-md-4 mb-4">
+            <div class="calc-card">
+              <div class="text-center">
+                <i class="fas fa-compress section-icon"></i>
+                <h3 data-ar="الضغط" data-en="Pressure">الضغط</h3>
+                <p class="section-description" data-ar="تحويل الضغط بين باسكال، بار، psi، وجو." data-en="Convert pressure between Pascal, Bar, psi, and Atmosphere.">
+                  تحويل الضغط بين باسكال، بار، psi، وجو.
+                </p>
+              </div>
+              <button class="calc-btn" data-toggle="collapse" data-target="#calcPressure" aria-expanded="false" aria-controls="calcPressure" data-ar="فتح الحاسبة" data-en="Open Calculator">فتح الحاسبة</button>
+              <div class="collapse" id="calcPressure">
+                <div class="calc-card mt-3">
+                  <form id="pressureForm">
+                    <div class="calc-form-group">
+                      <label data-ar="القيمة:" data-en="Value:">القيمة:</label>
+                      <input type="number" name="value" placeholder="ادخل القيمة">
+                    </div>
+                    <div class="calc-form-group">
+                      <label data-ar="من:" data-en="From:">من:</label>
+                      <select name="from">
+                        <option value="Pa" data-ar="باسكال" data-en="Pascal">باسكال</option>
+                        <option value="bar" data-ar="بار" data-en="Bar">بار</option>
+                        <option value="psi" data-ar="رطل/بوصة²" data-en="psi">رطل/بوصة²</option>
+                        <option value="atm" data-ar="جو" data-en="Atmosphere">جو</option>
+                      </select>
+                    </div>
+                    <div class="calc-form-group">
+                      <label data-ar="إلى:" data-en="To:">إلى:</label>
+                      <select name="to">
+                        <option value="Pa" data-ar="باسكال" data-en="Pascal">باسكال</option>
+                        <option value="bar" data-ar="بار" data-en="Bar">بار</option>
+                        <option value="psi" data-ar="رطل/بوصة²" data-en="psi">رطل/بوصة²</option>
+                        <option value="atm" data-ar="جو" data-en="Atmosphere">جو</option>
+                      </select>
+                    </div>
+                    <button type="button" class="calc-btn" onclick="convertPressure()" data-ar="حوّل" data-en="Convert">حوّل</button>
+                  </form>
+                  <div id="pressureResult" class="calc-result mt-3" style="display: none;"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- 9. الطاقة -->
+          <div class="col-md-4 mb-4">
+            <div class="calc-card">
+              <div class="text-center">
+                <i class="fas fa-bolt section-icon"></i>
+                <h3 data-ar="الطاقة" data-en="Power">الطاقة</h3>
+                <p class="section-description" data-ar="تحويل الطاقة بين الواط، كيلووات، حصان، وBTU/ثانية." data-en="Convert power between Watt, Kilowatt, Horsepower, and BTU/s.">
+                  تحويل الطاقة بين الواط، كيلووات، حصان، وBTU/ثانية.
+                </p>
+              </div>
+              <button class="calc-btn" data-toggle="collapse" data-target="#calcPower" aria-expanded="false" aria-controls="calcPower" data-ar="فتح الحاسبة" data-en="Open Calculator">فتح الحاسبة</button>
+              <div class="collapse" id="calcPower">
+                <div class="calc-card mt-3">
+                  <form id="powerForm">
+                    <div class="calc-form-group">
+                      <label data-ar="القيمة:" data-en="Value:">القيمة:</label>
+                      <input type="number" name="value" placeholder="ادخل القيمة">
+                    </div>
+                    <div class="calc-form-group">
+                      <label data-ar="من:" data-en="From:">من:</label>
+                      <select name="from">
+                        <option value="W" data-ar="وات" data-en="Watt">وات</option>
+                        <option value="kW" data-ar="كيلووات" data-en="Kilowatt">كيلووات</option>
+                        <option value="hp" data-ar="حصان" data-en="Horsepower">حصان</option>
+                        <option value="BTU/s" data-ar="BTU/ثانية" data-en="BTU/s">BTU/ثانية</option>
+                      </select>
+                    </div>
+                    <div class="calc-form-group">
+                      <label data-ar="إلى:" data-en="To:">إلى:</label>
+                      <select name="to">
+                        <option value="W" data-ar="وات" data-en="Watt">وات</option>
+                        <option value="kW" data-ar="كيلووات" data-en="Kilowatt">كيلووات</option>
+                        <option value="hp" data-ar="حصان" data-en="Horsepower">حصان</option>
+                        <option value="BTU/s" data-ar="BTU/ثانية" data-en="BTU/s">BTU/ثانية</option>
+                      </select>
+                    </div>
+                    <button type="button" class="calc-btn" onclick="convertPower()" data-ar="حوّل" data-en="Convert">حوّل</button>
+                  </form>
+                  <div id="powerResult" class="calc-result mt-3" style="display: none;"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- 10. الطاقة الحرارية -->
+          <div class="col-md-4 mb-4">
+            <div class="calc-card">
+              <div class="text-center">
+                <i class="fas fa-battery-half section-icon"></i>
+                <h3 data-ar="الطاقة الحرارية" data-en="Thermal Energy">الطاقة الحرارية</h3>
+                <p class="section-description" data-ar="تحويل الطاقة الحرارية بين جول، كيلوجول، كيلوكالوري، وWatt-hour." data-en="Convert thermal energy between Joule, Kilojoule, Kilocalorie, and Watt-hour.">
+                  تحويل الطاقة الحرارية بين جول، كيلوجول، كيلوكالوري، وWatt-hour.
+                </p>
+              </div>
+              <button class="calc-btn" data-toggle="collapse" data-target="#calcEnergy" aria-expanded="false" aria-controls="calcEnergy" data-ar="فتح الحاسبة" data-en="Open Calculator">فتح الحاسبة</button>
+              <div class="collapse" id="calcEnergy">
+                <div class="calc-card mt-3">
+                  <form id="energyForm">
+                    <div class="calc-form-group">
+                      <label data-ar="القيمة:" data-en="Value:">القيمة:</label>
+                      <input type="number" name="value" placeholder="ادخل القيمة">
+                    </div>
+                    <div class="calc-form-group">
+                      <label data-ar="من:" data-en="From:">من:</label>
+                      <select name="from">
+                        <option value="J" data-ar="جول" data-en="Joule">جول</option>
+                        <option value="kJ" data-ar="كيلوجول" data-en="Kilojoule">كيلوجول</option>
+                        <option value="kcal" data-ar="كيلوكالوري" data-en="Kilocalorie">كيلوكالوري</option>
+                        <option value="Wh" data-ar="Watt-hour" data-en="Watt-hour">Watt-hour</option>
+                      </select>
+                    </div>
+                    <div class="calc-form-group">
+                      <label data-ar="إلى:" data-en="To:">إلى:</label>
+                      <select name="to">
+                        <option value="J" data-ar="جول" data-en="Joule">جول</option>
+                        <option value="kJ" data-ar="كيلوجول" data-en="Kilojoule">كيلوجول</option>
+                        <option value="kcal" data-ar="كيلوكالوري" data-en="Kilocalorie">كيلوكالوري</option>
+                        <option value="Wh" data-ar="Watt-hour" data-en="Watt-hour">Watt-hour</option>
+                      </select>
+                    </div>
+                    <button type="button" class="calc-btn" onclick="convertEnergy()" data-ar="حوّل" data-en="Convert">حوّل</button>
+                  </form>
+                  <div id="energyResult" class="calc-result mt-3" style="display: none;"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- 11. سعة البيانات -->
+          <div class="col-md-4 mb-4">
+            <div class="calc-card">
+              <div class="text-center">
+                <i class="fas fa-database section-icon"></i>
+                <h3 data-ar="سعة البيانات" data-en="Data Storage">سعة البيانات</h3>
+                <p class="section-description" data-ar="تحويل سعة البيانات بين بايت، كيلوبايت، ميجابايت، وجيجابايت." data-en="Convert data storage between Byte, Kilobyte, Megabyte, and Gigabyte.">
+                  تحويل سعة البيانات بين بايت، كيلوبايت، ميجابايت، وجيجابايت.
+                </p>
+              </div>
+              <button class="calc-btn" data-toggle="collapse" data-target="#calcDataStorage" aria-expanded="false" aria-controls="calcDataStorage" data-ar="فتح الحاسبة" data-en="Open Calculator">فتح الحاسبة</button>
+              <div class="collapse" id="calcDataStorage">
+                <div class="calc-card mt-3">
+                  <form id="dataStorageForm">
+                    <div class="calc-form-group">
+                      <label data-ar="القيمة:" data-en="Value:">القيمة:</label>
+                      <input type="number" name="value" placeholder="ادخل القيمة">
+                    </div>
+                    <div class="calc-form-group">
+                      <label data-ar="من:" data-en="From:">من:</label>
+                      <select name="from">
+                        <option value="B" data-ar="بايت" data-en="Byte">بايت</option>
+                        <option value="KB" data-ar="كيلوبايت" data-en="Kilobyte">كيلوبايت</option>
+                        <option value="MB" data-ar="ميجابايت" data-en="Megabyte">ميجابايت</option>
+                        <option value="GB" data-ar="جيجابايت" data-en="Gigabyte">جيجابايت</option>
+                      </select>
+                    </div>
+                    <div class="calc-form-group">
+                      <label data-ar="إلى:" data-en="To:">إلى:</label>
+                      <select name="to">
+                        <option value="B" data-ar="بايت" data-en="Byte">بايت</option>
+                        <option value="KB" data-ar="كيلوبايت" data-en="Kilobyte">كيلوبايت</option>
+                        <option value="MB" data-ar="ميجابايت" data-en="Megabyte">ميجابايت</option>
+                        <option value="GB" data-ar="جيجابايت" data-en="Gigabyte">جيجابايت</option>
+                      </select>
+                    </div>
+                    <button type="button" class="calc-btn" onclick="convertDataStorage()" data-ar="حوّل" data-en="Convert">حوّل</button>
+                  </form>
+                  <div id="dataStorageResult" class="calc-result mt-3" style="display: none;"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- 12. القوة -->
+          <div class="col-md-4 mb-4">
+            <div class="calc-card">
+              <div class="text-center">
+                <i class="fas fa-weight-hanging section-icon"></i>
+                <h3 data-ar="القوة" data-en="Force">القوة</h3>
+                <p class="section-description" data-ar="تحويل القوة بين نيوتن، كيلوغرام-قوة، ورطل-قوة." data-en="Convert force between Newton, Kilogram-force, and Pound-force.">
+                  تحويل القوة بين نيوتن، كيلوغرام-قوة، ورطل-قوة.
+                </p>
+              </div>
+              <button class="calc-btn" data-toggle="collapse" data-target="#calcForce" aria-expanded="false" aria-controls="calcForce" data-ar="فتح الحاسبة" data-en="Open Calculator">فتح الحاسبة</button>
+              <div class="collapse" id="calcForce">
+                <div class="calc-card mt-3">
+                  <form id="forceForm">
+                    <div class="calc-form-group">
+                      <label data-ar="القيمة:" data-en="Value:">القيمة:</label>
+                      <input type="number" name="value" placeholder="ادخل القيمة">
+                    </div>
+                    <div class="calc-form-group">
+                      <label data-ar="من:" data-en="From:">من:</label>
+                      <select name="from">
+                        <option value="N" data-ar="نيوتن" data-en="N">نيوتن</option>
+                        <option value="kgf" data-ar="كيلوغرام-قوة" data-en="kgf">كيلوغرام-قوة</option>
+                        <option value="lbf" data-ar="رطل-قوة" data-en="lbf">رطل-قوة</option>
+                      </select>
+                    </div>
+                    <div class="calc-form-group">
+                      <label data-ar="إلى:" data-en="To:">إلى:</label>
+                      <select name="to">
+                        <option value="N" data-ar="نيوتن" data-en="N">نيوتن</option>
+                        <option value="kgf" data-ar="كيلوغرام-قوة" data-en="kgf">كيلوغرام-قوة</option>
+                        <option value="lbf" data-ar="رطل-قوة" data-en="lbf">رطل-قوة</option>
+                      </select>
+                    </div>
+                    <button type="button" class="calc-btn" onclick="convertForce()" data-ar="حوّل" data-en="Convert">حوّل</button>
+                  </form>
+                  <div id="forceResult" class="calc-result mt-3" style="display: none;"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- 13. الكثافة -->
+          <div class="col-md-4 mb-4">
+            <div class="calc-card">
+              <div class="text-center">
+                <i class="fas fa-tint section-icon"></i>
+                <h3 data-ar="الكثافة" data-en="Density">الكثافة</h3>
+                <p class="section-description" data-ar="تحويل الكثافة بين kg/m³، g/cm³، وlb/ft³." data-en="Convert density between kg/m³, g/cm³, and lb/ft³.">
+                  تحويل الكثافة بين kg/m³، g/cm³، وlb/ft³.
+                </p>
+              </div>
+              <button class="calc-btn" data-toggle="collapse" data-target="#calcDensity" aria-expanded="false" aria-controls="calcDensity" data-ar="فتح الحاسبة" data-en="Open Calculator">فتح الحاسبة</button>
+              <div class="collapse" id="calcDensity">
+                <div class="calc-card mt-3">
+                  <form id="densityForm">
+                    <div class="calc-form-group">
+                      <label data-ar="القيمة:" data-en="Value:">القيمة:</label>
+                      <input type="number" name="value" placeholder="ادخل القيمة">
+                    </div>
+                    <div class="calc-form-group">
+                      <label data-ar="من:" data-en="From:">من:</label>
+                      <select name="from">
+                        <option value="kg/m3" data-ar="كيلوغرام/متر³" data-en="kg/m³">كيلوغرام/متر³</option>
+                        <option value="g/cm3" data-ar="غرام/سنتيمتر³" data-en="g/cm³">غرام/سنتيمتر³</option>
+                        <option value="lb/ft3" data-ar="رطل/قدم³" data-en="lb/ft³">رطل/قدم³</option>
+                      </select>
+                    </div>
+                    <div class="calc-form-group">
+                      <label data-ar="إلى:" data-en="To:">إلى:</label>
+                      <select name="to">
+                        <option value="kg/m3" data-ar="كيلوغرام/متر³" data-en="kg/m³">كيلوغرام/متر³</option>
+                        <option value="g/cm3" data-ar="غرام/سنتيمتر³" data-en="g/cm³">غرام/سنتيمتر³</option>
+                        <option value="lb/ft3" data-ar="رطل/قدم³" data-en="lb/ft³">رطل/قدم³</option>
+                      </select>
+                    </div>
+                    <button type="button" class="calc-btn" onclick="convertDensity()" data-ar="حوّل" data-en="Convert">حوّل</button>
+                  </form>
+                  <div id="densityResult" class="calc-result mt-3" style="display: none;"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- 14. التردد -->
+          <div class="col-md-4 mb-4">
+            <div class="calc-card">
+              <div class="text-center">
+                <i class="fas fa-wave-square section-icon"></i>
+                <h3 data-ar="التردد" data-en="Frequency">التردد</h3>
+                <p class="section-description" data-ar="تحويل التردد بين Hz، kHz، MHz، وGHz." data-en="Convert frequency between Hz, kHz, MHz, and GHz.">
+                  تحويل التردد بين Hz، kHz، MHz، وGHz.
+                </p>
+              </div>
+              <button class="calc-btn" data-toggle="collapse" data-target="#calcFrequency" aria-expanded="false" aria-controls="calcFrequency" data-ar="فتح الحاسبة" data-en="Open Calculator">فتح الحاسبة</button>
+              <div class="collapse" id="calcFrequency">
+                <div class="calc-card mt-3">
+                  <form id="frequencyForm">
+                    <div class="calc-form-group">
+                      <label data-ar="القيمة:" data-en="Value:">القيمة:</label>
+                      <input type="number" name="value" placeholder="ادخل القيمة">
+                    </div>
+                    <div class="calc-form-group">
+                      <label data-ar="من:" data-en="From:">من:</label>
+                      <select name="from">
+                        <option value="Hz" data-ar="هرتز" data-en="Hz">هرتز</option>
+                        <option value="kHz" data-ar="كيلوهرتز" data-en="kHz">كيلوهرتز</option>
+                        <option value="MHz" data-ar="ميجاهرتز" data-en="MHz">ميجاهرتز</option>
+                        <option value="GHz" data-ar="جيجاهرتز" data-en="GHz">جيجاهرتز</option>
+                      </select>
+                    </div>
+                    <div class="calc-form-group">
+                      <label data-ar="إلى:" data-en="To:">إلى:</label>
+                      <select name="to">
+                        <option value="Hz" data-ar="هرتز" data-en="Hz">هرتز</option>
+                        <option value="kHz" data-ar="كيلوهرتز" data-en="kHz">كيلوهرتز</option>
+                        <option value="MHz" data-ar="ميجاهرتز" data-en="MHz">ميجاهرتز</option>
+                        <option value="GHz" data-ar="جيجاهرتز" data-en="GHz">جيجاهرتز</option>
+                      </select>
+                    </div>
+                    <button type="button" class="calc-btn" onclick="convertFrequency()" data-ar="حوّل" data-en="Convert">حوّل</button>
+                  </form>
+                  <div id="frequencyResult" class="calc-result mt-3" style="display: none;"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- 15. الزاوية -->
+          <div class="col-md-4 mb-4">
+            <div class="calc-card">
+              <div class="text-center">
+                <i class="fas fa-drafting-compass section-icon"></i>
+                <h3 data-ar="الزاوية" data-en="Angle">الزاوية</h3>
+                <p class="section-description" data-ar="تحويل الزاوية بين الدرجة، الراديان، والغريديان." data-en="Convert angle between Degree, Radian, and Gradian.">
+                  تحويل الزاوية بين الدرجة، الراديان، والغريديان.
+                </p>
+              </div>
+              <button class="calc-btn" data-toggle="collapse" data-target="#calcAngle" aria-expanded="false" aria-controls="calcAngle" data-ar="فتح الحاسبة" data-en="Open Calculator">فتح الحاسبة</button>
+              <div class="collapse" id="calcAngle">
+                <div class="calc-card mt-3">
+                  <form id="angleForm">
+                    <div class="calc-form-group">
+                      <label data-ar="القيمة:" data-en="Value:">القيمة:</label>
+                      <input type="number" name="value" placeholder="ادخل القيمة">
+                    </div>
+                    <div class="calc-form-group">
+                      <label data-ar="من:" data-en="From:">من:</label>
+                      <select name="from">
+                        <option value="deg" data-ar="درجة" data-en="Degree">درجة</option>
+                        <option value="rad" data-ar="راديان" data-en="Radian">راديان</option>
+                        <option value="grad" data-ar="غريديان" data-en="Gradian">غريديان</option>
+                      </select>
+                    </div>
+                    <div class="calc-form-group">
+                      <label data-ar="إلى:" data-en="To:">إلى:</label>
+                      <select name="to">
+                        <option value="deg" data-ar="درجة" data-en="Degree">درجة</option>
+                        <option value="rad" data-ar="راديان" data-en="Radian">راديان</option>
+                        <option value="grad" data-ar="غريديان" data-en="Gradian">غريديان</option>
+                      </select>
+                    </div>
+                    <button type="button" class="calc-btn" onclick="convertAngle()" data-ar="حوّل" data-en="Convert">حوّل</button>
+                  </form>
+                  <div id="angleResult" class="calc-result mt-3" style="display: none;"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- 16. التسارع -->
+          <div class="col-md-4 mb-4">
+            <div class="calc-card">
+              <div class="text-center">
+                <i class="fas fa-running section-icon"></i>
+                <h3 data-ar="التسارع" data-en="Acceleration">التسارع</h3>
+                <p class="section-description" data-ar="تحويل التسارع بين m/s²، km/h²، وft/s²." data-en="Convert acceleration between m/s², km/h², and ft/s².">
+                  تحويل التسارع بين m/s²، km/h²، وft/s².
+                </p>
+              </div>
+              <button class="calc-btn" data-toggle="collapse" data-target="#calcAcceleration" aria-expanded="false" aria-controls="calcAcceleration" data-ar="فتح الحاسبة" data-en="Open Calculator">فتح الحاسبة</button>
+              <div class="collapse" id="calcAcceleration">
+                <div class="calc-card mt-3">
+                  <form id="accelerationForm">
+                    <div class="calc-form-group">
+                      <label data-ar="القيمة:" data-en="Value:">القيمة:</label>
+                      <input type="number" name="value" placeholder="ادخل القيمة">
+                    </div>
+                    <div class="calc-form-group">
+                      <label data-ar="من:" data-en="From:">من:</label>
+                      <select name="from">
+                        <option value="m/s2" data-ar="متر/ثانية²" data-en="m/s²">متر/ثانية²</option>
+                        <option value="km/h2" data-ar="كم/ساعة²" data-en="km/h²">كم/ساعة²</option>
+                        <option value="ft/s2" data-ar="قدم/ثانية²" data-en="ft/s²">قدم/ثانية²</option>
+                      </select>
+                    </div>
+                    <div class="calc-form-group">
+                      <label data-ar="إلى:" data-en="To:">إلى:</label>
+                      <select name="to">
+                        <option value="m/s2" data-ar="متر/ثانية²" data-en="m/s²">متر/ثانية²</option>
+                        <option value="km/h2" data-ar="كم/ساعة²" data-en="km/h²">كم/ساعة²</option>
+                        <option value="ft/s2" data-ar="قدم/ثانية²" data-en="ft/s²">قدم/ثانية²</option>
+                      </select>
+                    </div>
+                    <button type="button" class="calc-btn" onclick="convertAcceleration()" data-ar="حوّل" data-en="Convert">حوّل</button>
+                  </form>
+                  <div id="accelerationResult" class="calc-result mt-3" style="display: none;"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- 17. عزم الدوران -->
+          <div class="col-md-4 mb-4">
+            <div class="calc-card">
+              <div class="text-center">
+                <i class="fas fa-sync-alt section-icon"></i>
+                <h3 data-ar="عزم الدوران" data-en="Torque">عزم الدوران</h3>
+                <p class="section-description" data-ar="تحويل عزم الدوران بين Nm و lbf·ft." data-en="Convert torque between Nm and lbf·ft.">
+                  تحويل عزم الدوران بين Nm و lbf·ft.
+                </p>
+              </div>
+              <button class="calc-btn" data-toggle="collapse" data-target="#calcTorque" aria-expanded="false" aria-controls="calcTorque" data-ar="فتح الحاسبة" data-en="Open Calculator">فتح الحاسبة</button>
+              <div class="collapse" id="calcTorque">
+                <div class="calc-card mt-3">
+                  <form id="torqueForm">
+                    <div class="calc-form-group">
+                      <label data-ar="القيمة:" data-en="Value:">القيمة:</label>
+                      <input type="number" name="value" placeholder="ادخل القيمة">
+                    </div>
+                    <div class="calc-form-group">
+                      <label data-ar="من:" data-en="From:">من:</label>
+                      <select name="from">
+                        <option value="Nm" data-ar="نيوتن-متر" data-en="Nm">نيوتن-متر</option>
+                        <option value="lbf-ft" data-ar="رطل-قدم" data-en="lbf·ft">رطل-قدم</option>
+                      </select>
+                    </div>
+                    <div class="calc-form-group">
+                      <label data-ar="إلى:" data-en="To:">إلى:</label>
+                      <select name="to">
+                        <option value="Nm" data-ar="نيوتن-متر" data-en="Nm">نيوتن-متر</option>
+                        <option value="lbf-ft" data-ar="رطل-قدم" data-en="lbf·ft">رطل-قدم</option>
+                      </select>
+                    </div>
+                    <button type="button" class="calc-btn" onclick="convertTorque()" data-ar="حوّل" data-en="Convert">حوّل</button>
+                  </form>
+                  <div id="torqueResult" class="calc-result mt-3" style="display: none;"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- 18. معدل التدفق -->
+          <div class="col-md-4 mb-4">
+            <div class="calc-card">
+              <div class="text-center">
+                <i class="fas fa-water section-icon"></i>
+                <h3 data-ar="معدل التدفق" data-en="Flow Rate">معدل التدفق</h3>
+                <p class="section-description" data-ar="تحويل معدل التدفق بين L/s، m³/h، وجالون/دقيقة." data-en="Convert flow rate between L/s, m³/h, and gal/min.">
+                  تحويل معدل التدفق بين L/s، m³/h، وجالون/دقيقة.
+                </p>
+              </div>
+              <button class="calc-btn" data-toggle="collapse" data-target="#calcFlowRate" aria-expanded="false" aria-controls="calcFlowRate" data-ar="فتح الحاسبة" data-en="Open Calculator">فتح الحاسبة</button>
+              <div class="collapse" id="calcFlowRate">
+                <div class="calc-card mt-3">
+                  <form id="flowRateForm">
+                    <div class="calc-form-group">
+                      <label data-ar="القيمة:" data-en="Value:">القيمة:</label>
+                      <input type="number" name="value" placeholder="ادخل القيمة">
+                    </div>
+                    <div class="calc-form-group">
+                      <label data-ar="من:" data-en="From:">من:</label>
+                      <select name="from">
+                        <option value="l/s" data-ar="لتر/ثانية" data-en="L/s">لتر/ثانية</option>
+                        <option value="m3/h" data-ar="متر³/ساعة" data-en="m³/h">متر³/ساعة</option>
+                        <option value="gal/min" data-ar="جالون/دقيقة" data-en="gal/min">جالون/دقيقة</option>
+                      </select>
+                    </div>
+                    <div class="calc-form-group">
+                      <label data-ar="إلى:" data-en="To:">إلى:</label>
+                      <select name="to">
+                        <option value="l/s" data-ar="لتر/ثانية" data-en="L/s">لتر/ثانية</option>
+                        <option value="m3/h" data-ar="متر³/ساعة" data-en="m³/h">متر³/ساعة</option>
+                        <option value="gal/min" data-ar="جالون/دقيقة" data-en="gal/min">جالون/دقيقة</option>
+                      </select>
+                    </div>
+                    <button type="button" class="calc-btn" onclick="convertFlowRate()" data-ar="حوّل" data-en="Convert">حوّل</button>
+                  </form>
+                  <div id="flowRateResult" class="calc-result mt-3" style="display: none;"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- 19. الإضاءة -->
+          <div class="col-md-4 mb-4">
+            <div class="calc-card">
+              <div class="text-center">
+                <i class="fas fa-lightbulb section-icon"></i>
+                <h3 data-ar="الإضاءة" data-en="Illuminance">الإضاءة</h3>
+                <p class="section-description" data-ar="تحويل الإضاءة بين الليكس والقدم-شمعة." data-en="Convert illuminance between lux and foot-candle.">
+                  تحويل الإضاءة بين الليكس والقدم-شمعة.
+                </p>
+              </div>
+              <button class="calc-btn" data-toggle="collapse" data-target="#calcIlluminance" aria-expanded="false" aria-controls="calcIlluminance" data-ar="فتح الحاسبة" data-en="Open Calculator">فتح الحاسبة</button>
+              <div class="collapse" id="calcIlluminance">
+                <div class="calc-card mt-3">
+                  <form id="illuminanceForm">
+                    <div class="calc-form-group">
+                      <label data-ar="القيمة:" data-en="Value:">القيمة:</label>
+                      <input type="number" name="value" placeholder="ادخل القيمة">
+                    </div>
+                    <div class="calc-form-group">
+                      <label data-ar="من:" data-en="From:">من:</label>
+                      <select name="from">
+                        <option value="lux" data-ar="لكس" data-en="Lux">لكس</option>
+                        <option value="fc" data-ar="قدم-شمعة" data-en="Foot-candle">قدم-شمعة</option>
+                      </select>
+                    </div>
+                    <div class="calc-form-group">
+                      <label data-ar="إلى:" data-en="To:">إلى:</label>
+                      <select name="to">
+                        <option value="lux" data-ar="لكس" data-en="Lux">لكس</option>
+                        <option value="fc" data-ar="قدم-شمعة" data-en="Foot-candle">قدم-شمعة</option>
+                      </select>
+                    </div>
+                    <button type="button" class="calc-btn" onclick="convertIlluminance()" data-ar="حوّل" data-en="Convert">حوّل</button>
+                  </form>
+                  <div id="illuminanceResult" class="calc-result mt-3" style="display: none;"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- 20. كفاءة استهلاك الوقود -->
+          <div class="col-md-4 mb-4">
+            <div class="calc-card">
+              <div class="text-center">
+                <i class="fas fa-gas-pump section-icon"></i>
+                <h3 data-ar="كفاءة استهلاك الوقود" data-en="Fuel Economy">كفاءة استهلاك الوقود</h3>
+                <p class="section-description" data-ar="تحويل كفاءة استهلاك الوقود بين MPG، L/100km، وkm/L." data-en="Convert fuel economy between MPG, L/100km, and km/L.">
+                  تحويل كفاءة استهلاك الوقود بين MPG، L/100km، وkm/L.
+                </p>
+              </div>
+              <button class="calc-btn" data-toggle="collapse" data-target="#calcFuelEconomy" aria-expanded="false" aria-controls="calcFuelEconomy" data-ar="فتح الحاسبة" data-en="Open Calculator">فتح الحاسبة</button>
+              <div class="collapse" id="calcFuelEconomy">
+                <div class="calc-card mt-3">
+                  <form id="fuelEconomyForm">
+                    <div class="calc-form-group">
+                      <label data-ar="القيمة:" data-en="Value:">القيمة:</label>
+                      <input type="number" name="value" placeholder="ادخل القيمة">
+                    </div>
+                    <div class="calc-form-group">
+                      <label data-ar="من:" data-en="From:">من:</label>
+                      <select name="from">
+                        <option value="mpg" data-ar="ميل/جالون" data-en="MPG">ميل/جالون</option>
+                        <option value="l/100km" data-ar="لتر/100 كم" data-en="L/100km">لتر/100 كم</option>
+                        <option value="km/L" data-ar="كم/لتر" data-en="km/L">كم/لتر</option>
+                      </select>
+                    </div>
+                    <div class="calc-form-group">
+                      <label data-ar="إلى:" data-en="To:">إلى:</label>
+                      <select name="to">
+                        <option value="mpg" data-ar="ميل/جالون" data-en="MPG">ميل/جالون</option>
+                        <option value="l/100km" data-ar="لتر/100 كم" data-en="L/100km">لتر/100 كم</option>
+                        <option value="km/L" data-ar="كم/لتر" data-en="km/L">كم/لتر</option>
+                      </select>
+                    </div>
+                    <button type="button" class="calc-btn" onclick="convertFuelEconomy()" data-ar="حوّل" data-en="Convert">حوّل</button>
+                  </form>
+                  <div id="fuelEconomyResult" class="calc-result mt-3" style="display: none;"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- 21. السرعة الزاوية -->
+          <div class="col-md-4 mb-4">
+            <div class="calc-card">
+              <div class="text-center">
+                <i class="fas fa-sync-alt section-icon"></i>
+                <h3 data-ar="السرعة الزاوية" data-en="Angular Speed">السرعة الزاوية</h3>
+                <p class="section-description" data-ar="تحويل السرعة الزاوية بين rad/s، rpm، وdeg/s." data-en="Convert angular speed between rad/s, rpm, and deg/s.">
+                  تحويل السرعة الزاوية بين rad/s، rpm، وdeg/s.
+                </p>
+              </div>
+              <button class="calc-btn" data-toggle="collapse" data-target="#calcAngularSpeed" aria-expanded="false" aria-controls="calcAngularSpeed" data-ar="فتح الحاسبة" data-en="Open Calculator">فتح الحاسبة</button>
+              <div class="collapse" id="calcAngularSpeed">
+                <div class="calc-card mt-3">
+                  <form id="angularSpeedForm">
+                    <div class="calc-form-group">
+                      <label data-ar="القيمة:" data-en="Value:">القيمة:</label>
+                      <input type="number" name="value" placeholder="ادخل القيمة">
+                    </div>
+                    <div class="calc-form-group">
+                      <label data-ar="من:" data-en="From:">من:</label>
+                      <select name="from">
+                        <option value="rad/s" data-ar="راديان/ثانية" data-en="rad/s">راديان/ثانية</option>
+                        <option value="rpm" data-ar="دورة/دقيقة" data-en="rpm">دورة/دقيقة</option>
+                        <option value="deg/s" data-ar="درجة/ثانية" data-en="deg/s">درجة/ثانية</option>
+                      </select>
+                    </div>
+                    <div class="calc-form-group">
+                      <label data-ar="إلى:" data-en="To:">إلى:</label>
+                      <select name="to">
+                        <option value="rad/s" data-ar="راديان/ثانية" data-en="rad/s">راديان/ثانية</option>
+                        <option value="rpm" data-ar="دورة/دقيقة" data-en="rpm">دورة/دقيقة</option>
+                        <option value="deg/s" data-ar="درجة/ثانية" data-en="deg/s">درجة/ثانية</option>
+                      </select>
+                    </div>
+                    <button type="button" class="calc-btn" onclick="convertAngularSpeed()" data-ar="حوّل" data-en="Convert">حوّل</button>
+                  </form>
+                  <div id="angularSpeedResult" class="calc-result mt-3" style="display: none;"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- 22. الطاقة الكهربائية -->
+          <div class="col-md-4 mb-4">
+            <div class="calc-card">
+              <div class="text-center">
+                <i class="fas fa-bolt section-icon"></i>
+                <h3 data-ar="الطاقة الكهربائية" data-en="Electrical Energy">الطاقة الكهربائية</h3>
+                <p class="section-description" data-ar="تحويل الطاقة الكهربائية بين جول، Watt-hour، وkWh." data-en="Convert electrical energy between Joule, Watt-hour, and kWh.">
+                  تحويل الطاقة الكهربائية بين جول، Watt-hour، وkWh.
+                </p>
+              </div>
+              <button class="calc-btn" data-toggle="collapse" data-target="#calcElectricalEnergy" aria-expanded="false" aria-controls="calcElectricalEnergy" data-ar="فتح الحاسبة" data-en="Open Calculator">فتح الحاسبة</button>
+              <div class="collapse" id="calcElectricalEnergy">
+                <div class="calc-card mt-3">
+                  <form id="electricalEnergyForm">
+                    <div class="calc-form-group">
+                      <label data-ar="القيمة:" data-en="Value:">القيمة:</label>
+                      <input type="number" name="value" placeholder="ادخل القيمة">
+                    </div>
+                    <div class="calc-form-group">
+                      <label data-ar="من:" data-en="From:">من:</label>
+                      <select name="from">
+                        <option value="J" data-ar="جول" data-en="Joule">جول</option>
+                        <option value="Wh" data-ar="Watt-hour" data-en="Watt-hour">Watt-hour</option>
+                        <option value="kWh" data-ar="كيلووات ساعة" data-en="kWh">كيلووات ساعة</option>
+                      </select>
+                    </div>
+                    <div class="calc-form-group">
+                      <label data-ar="إلى:" data-en="To:">إلى:</label>
+                      <select name="to">
+                        <option value="J" data-ar="جول" data-en="Joule">جول</option>
+                        <option value="Wh" data-ar="Watt-hour" data-en="Watt-hour">Watt-hour</option>
+                        <option value="kWh" data-ar="كيلووات ساعة" data-en="kWh">كيلووات ساعة</option>
+                      </select>
+                    </div>
+                    <button type="button" class="calc-btn" onclick="convertElectricalEnergy()" data-ar="حوّل" data-en="Convert">حوّل</button>
+                  </form>
+                  <div id="electricalEnergyResult" class="calc-result mt-3" style="display: none;"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- 23. المقاومة الكهربائية -->
+          <div class="col-md-4 mb-4">
+            <div class="calc-card">
+              <div class="text-center">
+                <i class="fas fa-plug section-icon"></i>
+                <h3 data-ar="المقاومة الكهربائية" data-en="Resistance">المقاومة الكهربائية</h3>
+                <p class="section-description" data-ar="تحويل المقاومة الكهربائية بين الأوم، كيلو أوم، وميجا أوم." data-en="Convert electrical resistance between Ohm, kΩ, and MΩ.">
+                  تحويل المقاومة الكهربائية بين الأوم، كيلو أوم، وميجا أوم.
+                </p>
+              </div>
+              <button class="calc-btn" data-toggle="collapse" data-target="#calcResistance" aria-expanded="false" aria-controls="calcResistance" data-ar="فتح الحاسبة" data-en="Open Calculator">فتح الحاسبة</button>
+              <div class="collapse" id="calcResistance">
+                <div class="calc-card mt-3">
+                  <form id="resistanceForm">
+                    <div class="calc-form-group">
+                      <label data-ar="القيمة:" data-en="Value:">القيمة:</label>
+                      <input type="number" name="value" placeholder="ادخل القيمة">
+                    </div>
+                    <div class="calc-form-group">
+                      <label data-ar="من:" data-en="From:">من:</label>
+                      <select name="from">
+                        <option value="ohm" data-ar="أوم" data-en="Ohm">أوم</option>
+                        <option value="kΩ" data-ar="كيلو أوم" data-en="kΩ">كيلو أوم</option>
+                        <option value="MΩ" data-ar="ميجا أوم" data-en="MΩ">ميجا أوم</option>
+                      </select>
+                    </div>
+                    <div class="calc-form-group">
+                      <label data-ar="إلى:" data-en="To:">إلى:</label>
+                      <select name="to">
+                        <option value="ohm" data-ar="أوم" data-en="Ohm">أوم</option>
+                        <option value="kΩ" data-ar="كيلو أوم" data-en="kΩ">كيلو أوم</option>
+                        <option value="MΩ" data-ar="ميجا أوم" data-en="MΩ">ميجا أوم</option>
+                      </select>
+                    </div>
+                    <button type="button" class="calc-btn" onclick="convertResistance()" data-ar="حوّل" data-en="Convert">حوّل</button>
+                  </form>
+                  <div id="resistanceResult" class="calc-result mt-3" style="display: none;"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- 24. المسافة الفلكية -->
+          <div class="col-md-4 mb-4">
+            <div class="calc-card">
+              <div class="text-center">
+                <i class="fas fa-star section-icon"></i>
+                <h3 data-ar="المسافة الفلكية" data-en="Astronomical Distance">المسافة الفلكية</h3>
+                <p class="section-description" data-ar="تحويل المسافة الفلكية بين الكيلومتر، وحدة فلكية (AU)، سنة ضوئية، والبارسيك." data-en="Convert astronomical distance between km, AU, light-year, and parsec.">
+                  تحويل المسافة الفلكية بين الكيلومتر، وحدة فلكية (AU)، سنة ضوئية، والبارسيك.
+                </p>
+              </div>
+              <button class="calc-btn" data-toggle="collapse" data-target="#calcAstronomicalDistance" aria-expanded="false" aria-controls="calcAstronomicalDistance" data-ar="فتح الحاسبة" data-en="Open Calculator">فتح الحاسبة</button>
+              <div class="collapse" id="calcAstronomicalDistance">
+                <div class="calc-card mt-3">
+                  <form id="astronomicalDistanceForm">
+                    <div class="calc-form-group">
+                      <label data-ar="القيمة:" data-en="Value:">القيمة:</label>
+                      <input type="number" name="value" placeholder="ادخل القيمة">
+                    </div>
+                    <div class="calc-form-group">
+                      <label data-ar="من:" data-en="From:">من:</label>
+                      <select name="from">
+                        <option value="km" data-ar="كيلومتر" data-en="km">كيلومتر</option>
+                        <option value="AU" data-ar="وحدة فلكية" data-en="AU">وحدة فلكية</option>
+                        <option value="ly" data-ar="سنة ضوئية" data-en="Light-year">سنة ضوئية</option>
+                        <option value="pc" data-ar="بارسيك" data-en="Parsec">بارسيك</option>
+                      </select>
+                    </div>
+                    <div class="calc-form-group">
+                      <label data-ar="إلى:" data-en="To:">إلى:</label>
+                      <select name="to">
+                        <option value="km" data-ar="كيلومتر" data-en="km">كيلومتر</option>
+                        <option value="AU" data-ar="وحدة فلكية" data-en="AU">وحدة فلكية</option>
+                        <option value="ly" data-ar="سنة ضوئية" data-en="Light-year">سنة ضوئية</option>
+                        <option value="pc" data-ar="بارسيك" data-en="Parsec">بارسيك</option>
+                      </select>
+                    </div>
+                    <button type="button" class="calc-btn" onclick="convertAstronomicalDistance()" data-ar="حوّل" data-en="Convert">حوّل</button>
+                  </form>
+                  <div id="astronomicalDistanceResult" class="calc-result mt-3" style="display: none;"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- 25. الكثافة السكانية -->
+          <div class="col-md-4 mb-4">
+            <div class="calc-card">
+              <div class="text-center">
+                <i class="fas fa-users section-icon"></i>
+                <h3 data-ar="الكثافة السكانية" data-en="Population Density">الكثافة السكانية</h3>
+                <p class="section-description" data-ar="تحويل الكثافة السكانية بين الأشخاص/كم² والأشخاص/ميل²." data-en="Convert population density between people per km² and people per mi².">
+                  تحويل الكثافة السكانية بين الأشخاص/كم² والأشخاص/ميل².
+                </p>
+              </div>
+              <button class="calc-btn" data-toggle="collapse" data-target="#calcPopulationDensity" aria-expanded="false" aria-controls="calcPopulationDensity" data-ar="فتح الحاسبة" data-en="Open Calculator">فتح الحاسبة</button>
+              <div class="collapse" id="calcPopulationDensity">
+                <div class="calc-card mt-3">
+                  <form id="populationDensityForm">
+                    <div class="calc-form-group">
+                      <label data-ar="القيمة:" data-en="Value:">القيمة:</label>
+                      <input type="number" name="value" placeholder="ادخل القيمة">
+                    </div>
+                    <div class="calc-form-group">
+                      <label data-ar="من:" data-en="From:">من:</label>
+                      <select name="from">
+                        <option value="km2" data-ar="كم²" data-en="km²">كم²</option>
+                        <option value="mi2" data-ar="ميل²" data-en="mi²">ميل²</option>
+                      </select>
+                    </div>
+                    <div class="calc-form-group">
+                      <label data-ar="إلى:" data-en="To:">إلى:</label>
+                      <select name="to">
+                        <option value="km2" data-ar="كم²" data-en="km²">كم²</option>
+                        <option value="mi2" data-ar="ميل²" data-en="mi²">ميل²</option>
+                      </select>
+                    </div>
+                    <button type="button" class="calc-btn" onclick="convertPopulationDensity()" data-ar="حوّل" data-en="Convert">حوّل</button>
+                  </form>
+                  <div id="populationDensityResult" class="calc-result mt-3" style="display: none;"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- قسم الأدوات: 10 أدوات حقيقية -->
+      <section id="tools">
+        <h1 data-ar="الأدوات" data-en="Tools">الأدوات</h1>
+        <p class="section-description" data-ar="ستجد هنا 10 أدوات تحويل متخصصة. انقر على زر 'البدء' في كل بطاقة لفتح نافذة الأداة والعمل عليها داخل النظام بشكل فعلي." data-en="Here are 10 specialized conversion tools. Click the 'Start' button on each card to open the tool window and use it directly within the system.">
+          ستجد هنا 10 أدوات تحويل متخصصة. انقر على زر "البدء" في كل بطاقة لفتح نافذة الأداة والعمل عليها داخل النظام بشكل فعلي.
+        </p>
+        <div class="row">
+          <!-- أداة محول العملات -->
+          <div class="col-md-4 mb-4">
+            <div class="calc-card">
+              <div class="text-center">
+                <i class="fas fa-dollar-sign section-icon"></i>
+                <h3 data-ar="محول العملات" data-en="Currency Converter">محول العملات</h3>
+                <p class="section-description" data-ar="أداة حقيقية لتحويل العملات باستخدام أسعار صرف محدثة." data-en="A real currency converter using updated exchange rates.">
+                  أداة حقيقية لتحويل العملات باستخدام أسعار صرف محدثة.
+                </p>
+              </div>
+              <button class="calc-btn" data-toggle="modal" data-target="#modalCurrency" data-ar="البدء" data-en="Start">البدء</button>
+            </div>
+          </div>
+          <!-- أداة محول النصوص -->
+          <div class="col-md-4 mb-4">
+            <div class="calc-card">
+              <div class="text-center">
+                <i class="fas fa-file-alt section-icon"></i>
+                <h3 data-ar="محول النصوص" data-en="Text Converter">محول النصوص</h3>
+                <p class="section-description" data-ar="أداة لتحويل وتعديل النصوص مباشرة داخل النظام." data-en="A tool for converting and manipulating text directly.">
+                  أداة لتحويل وتعديل النصوص مباشرة داخل النظام.
+                </p>
+              </div>
+              <button class="calc-btn" data-toggle="modal" data-target="#modalTextConverter" data-ar="البدء" data-en="Start">البدء</button>
+            </div>
+          </div>
+          <!-- أداة محول PDF -->
+          <div class="col-md-4 mb-4">
+            <div class="calc-card">
+              <div class="text-center">
+                <i class="fas fa-file-pdf section-icon"></i>
+                <h3 data-ar="محول PDF" data-en="PDF Converter">محول PDF</h3>
+                <p class="section-description" data-ar="أداة لتحويل الصور إلى ملفات PDF بشكل عملي وسريع." data-en="A tool to convert images to PDF quickly and efficiently.">
+                  أداة لتحويل الصور إلى ملفات PDF بشكل عملي وسريع.
+                </p>
+              </div>
+              <button class="calc-btn" data-toggle="modal" data-target="#modalPDFConverter" data-ar="البدء" data-en="Start">البدء</button>
+            </div>
+          </div>
+          <!-- أداة CSV to JSON -->
+          <div class="col-md-4 mb-4">
+            <div class="calc-card">
+              <div class="text-center">
+                <i class="fas fa-file-csv section-icon"></i>
+                <h3 data-ar="CSV to JSON" data-en="CSV to JSON">CSV to JSON</h3>
+                <p class="section-description" data-ar="أداة لتحويل ملفات CSV إلى JSON بسهولة ودقة." data-en="A tool to convert CSV files to JSON easily and accurately.">
+                  أداة لتحويل ملفات CSV إلى JSON بسهولة ودقة.
+                </p>
+              </div>
+              <button class="calc-btn" data-toggle="modal" data-target="#modalCSVtoJSON" data-ar="البدء" data-en="Start">البدء</button>
+            </div>
+          </div>
+          <!-- أداة XML to JSON -->
+          <div class="col-md-4 mb-4">
+            <div class="calc-card">
+              <div class="text-center">
+                <i class="fas fa-code section-icon"></i>
+                <h3 data-ar="XML to JSON" data-en="XML to JSON">XML to JSON</h3>
+                <p class="section-description" data-ar="أداة لتحويل ملفات XML إلى JSON بدون عناء." data-en="A tool to convert XML files to JSON effortlessly.">
+                  أداة لتحويل ملفات XML إلى JSON بدون عناء.
+                </p>
+              </div>
+              <button class="calc-btn" data-toggle="modal" data-target="#modalXMLtoJSON" data-ar="البدء" data-en="Start">البدء</button>
+            </div>
+          </div>
+          <!-- أداة الحاسبات المالية -->
+          <div class="col-md-4 mb-4">
+            <div class="calc-card">
+              <div class="text-center">
+                <i class="fas fa-chart-line section-icon"></i>
+                <h3 data-ar="الحاسبات المالية" data-en="Finance Calculators">الحاسبات المالية</h3>
+                <p class="section-description" data-ar="أدوات متقدمة لحساب الفوائد، القروض، والادخار بشكل احترافي." data-en="Advanced tools for calculating interests, loans, and savings.">
+                  أدوات متقدمة لحساب الفوائد، القروض، والادخار بشكل احترافي.
+                </p>
+              </div>
+              <button class="calc-btn" data-toggle="modal" data-target="#modalFinance" data-ar="البدء" data-en="Start">البدء</button>
+            </div>
+          </div>
+          <!-- أداة التطبيقات الرياضية -->
+          <div class="col-md-4 mb-4">
+            <div class="calc-card">
+              <div class="text-center">
+                <i class="fas fa-square-root-alt section-icon"></i>
+                <h3 data-ar="التطبيقات الرياضية" data-en="Maths Applications">التطبيقات الرياضية</h3>
+                <p class="section-description" data-ar="أدوات رياضية متقدمة لإجراء الحسابات المختلفة بشكل فعلي." data-en="Advanced mathematical tools for various calculations.">
+                  أدوات رياضية متقدمة لإجراء الحسابات المختلفة بشكل فعلي.
+                </p>
+              </div>
+              <button class="calc-btn" data-toggle="modal" data-target="#modalMaths" data-ar="البدء" data-en="Start">البدء</button>
+            </div>
+          </div>
+          <!-- أداة محول الوحدات المحترف -->
+          <div class="col-md-4 mb-4">
+            <div class="calc-card">
+              <div class="text-center">
+                <i class="fas fa-diamond section-icon"></i>
+                <h3 data-ar="محول الوحدات المحترف" data-en="Unit Converter Pro">محول الوحدات المحترف</h3>
+                <p class="section-description" data-ar="أداة متقدمة لتحويل الوحدات بدقة احترافية." data-en="Advanced tool for professional unit conversion.">
+                  أداة متقدمة لتحويل الوحدات بدقة احترافية.
+                </p>
+              </div>
+              <button class="calc-btn" data-toggle="modal" data-target="#modalUnitPro" data-ar="البدء" data-en="Start">البدء</button>
+            </div>
+          </div>
+          <!-- أداة الأدوات الذكية -->
+          <div class="col-md-4 mb-4">
+            <div class="calc-card">
+              <div class="text-center">
+                <i class="fas fa-cogs section-icon"></i>
+                <h3 data-ar="الأدوات الذكية" data-en="Smart Tools">الأدوات الذكية</h3>
+                <p class="section-description" data-ar="مجموعة من الأدوات المتنوعة لتحسين إنتاجيتك بشكل فعلي." data-en="A collection of smart tools to boost your productivity.">
+                  مجموعة من الأدوات المتنوعة لتحسين إنتاجيتك بشكل فعلي.
+                </p>
+              </div>
+              <button class="calc-btn" data-toggle="modal" data-target="#modalSmartTools" data-ar="البدء" data-en="Start">البدء</button>
+            </div>
+          </div>
+          <!-- أداة أدوات التشفير -->
+          <div class="col-md-4 mb-4">
+            <div class="calc-card">
+              <div class="text-center">
+                <i class="fas fa-lock section-icon"></i>
+                <h3 data-ar="أدوات التشفير" data-en="Encryption Tools">أدوات التشفير</h3>
+                <p class="section-description" data-ar="أدوات لتشفير وفك تشفير النصوص والمعلومات بشكل عملي." data-en="Tools for encrypting and decrypting text and data.">
+                  أدوات لتشفير وفك تشفير النصوص والمعلومات بشكل عملي.
+                </p>
+              </div>
+              <button class="calc-btn" data-toggle="modal" data-target="#modalEncryption" data-ar="البدء" data-en="Start">البدء</button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- زر العودة للأعلى -->
+  <button id="backToTop" aria-label="العودة للأعلى"><i class="fas fa-arrow-up"></i></button>
+
+  <!-- الفوتر المُحسَّن -->
+  <footer>
+    <div style="margin-bottom:10px;">
+      <a href="#" class="share-print-buttons" title="طباعة"><i class="fas fa-print"></i></a>
+      <a href="#" class="share-print-buttons" title="مشاركة"><i class="fas fa-share-alt"></i></a>
+    </div>
+    <p data-ar="&copy; 2025 محول الوحدات الذكي. جميع الحقوق محفوظة." data-en="&copy; 2025 Smart Unit Converter. All rights reserved.">
+      &copy; 2025 محول الوحدات الذكي. جميع الحقوق محفوظة.
+    </p>
+    <div class="social">
+      <a href="#" title="فيسبوك"><i class="fab fa-facebook-f"></i></a>
+      <a href="#" title="تويتر"><i class="fab fa-twitter"></i></a>
+      <a href="#" title="لينكد إن"><i class="fab fa-linkedin-in"></i></a>
+      <a href="#" title="يوتيوب"><i class="fab fa-youtube"></i></a>
+    </div>
+  </footer>
+
+  <!-- Back To Top Button Script -->
+  <script>
+    var backToTop = document.getElementById('backToTop');
+    window.addEventListener('scroll', function () {
+      backToTop.style.display = (window.pageYOffset > 300) ? "block" : "none";
+    });
+    backToTop.addEventListener('click', function () {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+  </script>
+
+  <!-- مكتبات JQuery, Bootstrap, MDB -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/popper.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.5.8/js/mdb.min.js"></script>
+
+  <!-- سكريبتات النظام والدوال الحسابية -->
+  <script>
+    // تهيئة التطبيق (Firebase, Modal، إلخ)
+    function initApp() {
+      var result = localStorage.getItem("is_pro_dialog_showed_uc_v6");
+      if (!result) {
+        localStorage.setItem("is_pro_dialog_showed_uc_v6", 1);
+        // يمكن عرض رسالة ترحيبية أو نافذة إعلامية هنا إذا رغبنا
+      }
+      firebase.auth().onAuthStateChanged(function (user) {
+        if (user) {
+          document.getElementById("sign-in-li").style.visibility = "hidden";
+          document.getElementById("sign-in-li").style.display = "none";
+          document.getElementById("sign-out-li").style.visibility = "visible";
+          document.getElementById("sign-out-li").style.display = "block";
+        } else {
+          document.getElementById("sign-in-li").style.visibility = "visible";
+          document.getElementById("sign-in-li").style.display = "block";
+          document.getElementById("sign-out-li").style.visibility = "hidden";
+          document.getElementById("sign-out-li").style.display = "none";
+        }
+      }, function (error) { });
+    }
+    window.addEventListener('load', function () { initApp(); });
+    function logoutUser() {
+      firebase.auth().signOut()
+        .then(function () {
+          document.getElementById("sign-in-li").style.visibility = "visible";
+          document.getElementById("sign-in-li").style.display = "block";
+          document.getElementById("sign-out-li").style.visibility = "hidden";
+          document.getElementById("sign-out-li").style.display = "none";
+          alert('تم تسجيل الخروج بنجاح. الرجاء إعادة تسجيل الدخول للوصول إلى المزايا الاحترافية.');
+        })
+        .catch(function (error) { });
+    }
+
+    // دالة تحويل عامة باستخدام FormData
+    function convertGeneric(form, factors) {
+      const formData = new FormData(form);
+      const value = Number(formData.get('value'));
+      const from = formData.get('from');
+      const to = formData.get('to');
+      if (!factors[from] || !factors[to]) return "خطأ: وحدة غير معروفة.";
+      let result = value * factors[from] / factors[to];
+      return result;
+    }
+
+    // تحديث نتيجة الحاسبة مع أزرار النسخ والمشاركة
+    function updateResult(resultId, result) {
+      const resDiv = document.getElementById(resultId);
+      resDiv.style.display = "block";
+      resDiv.innerHTML = "<strong>النتيجة: </strong>" + result.toFixed(2) +
+        "<br><div class='result-actions'><button class='calc-btn' onclick='copyToClipboard(\"" + resultId + "\")'>نسخ</button> " +
+        "<button class='calc-btn' onclick='shareResult(\"" + resultId + "\")'>شارك</button></div>";
+    }
+
+    // دوال التحويل لكل أداة
+    function convertTemp() {
+      const form = document.getElementById("tempForm");
+      const value = Number(form.elements["value"].value);
+      const from = form.elements["from"].value;
+      const to = form.elements["to"].value;
+      let tempC;
+      if (from === "F") tempC = (value - 32) * 5/9;
+      else if (from === "K") tempC = value - 273.15;
+      else if (from === "R") tempC = (value - 491.67) * 5/9;
+      else tempC = value;
+      let result;
+      if (to === "F") result = (tempC * 9/5) + 32;
+      else if (to === "K") result = tempC + 273.15;
+      else if (to === "R") result = (tempC + 273.15) * 9/5 + 491.67;
+      else result = tempC;
+      updateResult("tempResult", result);
+    }
+    function convertWeight() {
+      const form = document.getElementById("weightForm");
+      const value = Number(form.elements["value"].value);
+      const from = form.elements["from"].value;
+      const to = form.elements["to"].value;
+      let valueInKg;
+      if (from === "kg") valueInKg = value;
+      else if (from === "g") valueInKg = value / 1000;
+      else if (from === "lb") valueInKg = value * 0.453592;
+      else if (from === "oz") valueInKg = value * 0.0283495;
+      else if (from === "ton") valueInKg = value * 1000;
+      let result;
+      if (to === "kg") result = valueInKg;
+      else if (to === "g") result = valueInKg * 1000;
+      else if (to === "lb") result = valueInKg / 0.453592;
+      else if (to === "oz") result = valueInKg / 0.0283495;
+      else if (to === "ton") result = valueInKg / 1000;
+      updateResult("weightResult", result);
+    }
+    function convertLength() {
+      const form = document.getElementById("lengthForm");
+      const value = Number(form.elements["value"].value);
+      const from = form.elements["from"].value;
+      const to = form.elements["to"].value;
+      let valueInMeters;
+      if (from === "m") valueInMeters = value;
+      else if (from === "km") valueInMeters = value * 1000;
+      else if (from === "mi") valueInMeters = value * 1609.34;
+      else if (from === "cm") valueInMeters = value / 100;
+      else if (from === "in") valueInMeters = value * 0.0254;
+      else if (from === "ft") valueInMeters = value * 0.3048;
+      else if (from === "yd") valueInMeters = value * 0.9144;
+      let result;
+      if (to === "m") result = valueInMeters;
+      else if (to === "km") result = valueInMeters / 1000;
+      else if (to === "mi") result = valueInMeters / 1609.34;
+      else if (to === "cm") result = valueInMeters * 100;
+      else if (to === "in") result = valueInMeters / 0.0254;
+      else if (to === "ft") result = valueInMeters / 0.3048;
+      else if (to === "yd") result = valueInMeters / 0.9144;
+      updateResult("lengthResult", result);
+    }
+    function convertArea() {
+      const factors = { "m2": 1, "km2": 1e6, "ft2": 0.092903, "yd2": 0.836127, "acre": 4046.86 };
+      const form = document.getElementById("areaForm");
+      const result = convertGeneric(form, factors);
+      updateResult("areaResult", result);
+    }
+    function convertVolume() {
+      const factors = { "m3": 1, "l": 0.001, "gal": 0.00378541, "ml": 1e-6, "ft3": 0.0283168 };
+      const form = document.getElementById("volumeForm");
+      const result = convertGeneric(form, factors);
+      updateResult("volumeResult", result);
+    }
+    function convertSpeed() {
+      const factors = { "mps": 1, "kmph": 1/3.6, "mph": 0.44704, "knot": 0.514444 };
+      const form = document.getElementById("speedForm");
+      const result = convertGeneric(form, factors);
+      updateResult("speedResult", result);
+    }
+    function convertTime() {
+      const factors = { "s": 1, "min": 60, "h": 3600, "day": 86400 };
+      const form = document.getElementById("timeForm");
+      const result = convertGeneric(form, factors);
+      updateResult("timeResult", result);
+    }
+    function convertPressure() {
+      const factors = { "Pa": 1, "bar": 1e5, "psi": 6894.76, "atm": 101325 };
+      const form = document.getElementById("pressureForm");
+      const result = convertGeneric(form, factors);
+      updateResult("pressureResult", result);
+    }
+    function convertPower() {
+      const factors = { "W": 1, "kW": 1000, "hp": 745.7, "BTU/s": 1055.06 };
+      const form = document.getElementById("powerForm");
+      const result = convertGeneric(form, factors);
+      updateResult("powerResult", result);
+    }
+    function convertEnergy() {
+      const factors = { "J": 1, "kJ": 1000, "kcal": 4184, "Wh": 3600 };
+      const form = document.getElementById("energyForm");
+      const result = convertGeneric(form, factors);
+      updateResult("energyResult", result);
+    }
+    function convertDataStorage() {
+      const factors = { "B": 1, "KB": 1024, "MB": 1048576, "GB": 1073741824 };
+      const form = document.getElementById("dataStorageForm");
+      const result = convertGeneric(form, factors);
+      updateResult("dataStorageResult", result);
+    }
+    function convertForce() {
+      const factors = { "N": 1, "kgf": 9.80665, "lbf": 4.44822 };
+      const form = document.getElementById("forceForm");
+      const result = convertGeneric(form, factors);
+      updateResult("forceResult", result);
+    }
+    function convertDensity() {
+      const factors = { "kg/m3": 1, "g/cm3": 1000, "lb/ft3": 16.0185 };
+      const form = document.getElementById("densityForm");
+      const result = convertGeneric(form, factors);
+      updateResult("densityResult", result);
+    }
+    function convertFrequency() {
+      const factors = { "Hz": 1, "kHz": 1000, "MHz": 1e6, "GHz": 1e9 };
+      const form = document.getElementById("frequencyForm");
+      const result = convertGeneric(form, factors);
+      updateResult("frequencyResult", result);
+    }
+    function convertAngle() {
+      const factors = { "deg": 1, "rad": 57.2958, "grad": 0.9 };
+      const form = document.getElementById("angleForm");
+      const result = convertGeneric(form, factors);
+      updateResult("angleResult", result);
+    }
+    function convertAcceleration() {
+      const factors = { "m/s2": 1, "km/h2": 1/12.96, "ft/s2": 1/3.28084 };
+      const form = document.getElementById("accelerationForm");
+      const result = convertGeneric(form, factors);
+      updateResult("accelerationResult", result);
+    }
+    function convertTorque() {
+      const factors = { "Nm": 1, "lbf-ft": 0.737562 };
+      const form = document.getElementById("torqueForm");
+      const result = convertGeneric(form, factors);
+      updateResult("torqueResult", result);
+    }
+    function convertFlowRate() {
+      const factors = { "l/s": 1, "m3/h": 0.27778, "gal/min": 0.06309 };
+      const form = document.getElementById("flowRateForm");
+      const result = convertGeneric(form, factors);
+      updateResult("flowRateResult", result);
+    }
+    function convertIlluminance() {
+      const factors = { "lux": 1, "fc": 10.7639 };
+      const form = document.getElementById("illuminanceForm");
+      const result = convertGeneric(form, factors);
+      updateResult("illuminanceResult", result);
+    }
+    function convertFuelEconomy() {
+      const form = document.getElementById("fuelEconomyForm");
+      const value = Number(form.elements["value"].value);
+      const from = form.elements["from"].value;
+      const to = form.elements["to"].value;
+      let result;
+      if (from === "mpg" && to === "l/100km") result = 235.214583 / value;
+      else if (from === "l/100km" && to === "mpg") result = 235.214583 / value;
+      else if (from === "km/L" && to === "mpg") result = 235.214583 / value; 
+      else result = value;
+      updateResult("fuelEconomyResult", result);
+    }
+    // الدوال الجديدة للفئات الإضافية
+    function convertAngularSpeed() {
+      const factors = { "rad/s": 1, "rpm": (2 * Math.PI) / 60, "deg/s": Math.PI / 180 };
+      const form = document.getElementById("angularSpeedForm");
+      const result = convertGeneric(form, factors);
+      updateResult("angularSpeedResult", result);
+    }
+    function convertElectricalEnergy() {
+      const factors = { "J": 1, "Wh": 3600, "kWh": 3600000 };
+      const form = document.getElementById("electricalEnergyForm");
+      const result = convertGeneric(form, factors);
+      updateResult("electricalEnergyResult", result);
+    }
+    function convertResistance() {
+      const factors = { "ohm": 1, "kΩ": 1000, "MΩ": 1000000 };
+      const form = document.getElementById("resistanceForm");
+      const result = convertGeneric(form, factors);
+      updateResult("resistanceResult", result);
+    }
+    function convertAstronomicalDistance() {
+      const factors = { "km": 1, "AU": 149597870.7, "ly": 9.4607e12, "pc": 3.085677581e13 };
+      const form = document.getElementById("astronomicalDistanceForm");
+      const result = convertGeneric(form, factors);
+      updateResult("astronomicalDistanceResult", result);
+    }
+    function convertPopulationDensity() {
+      const factors = { "km2": 1, "mi2": 2.58999 };
+      const form = document.getElementById("populationDensityForm");
+      const result = convertGeneric(form, factors);
+      updateResult("populationDensityResult", result);
+    }
+
+    // دوال نسخ ومشاركة النتيجة
+    function copyToClipboard(resultId) {
+      const text = document.getElementById(resultId).innerText.replace("النتيجة: ", "").replace("نسخ", "").replace("شارك", "");
+      navigator.clipboard.writeText(text).then(() => { alert("تم نسخ النتيجة!"); });
+    }
+    function shareResult(resultId) {
+      const text = document.getElementById(resultId).innerText;
+      if (navigator.share) {
+        navigator.share({
+          title: 'نتيجة التحويل',
+          text: text
+        });
+      } else {
+        alert("ميزة المشاركة غير مدعومة في هذا المتصفح.");
+      }
+    }
+    function sharePage() {
+      if (navigator.share) {
+        navigator.share({
+          title: 'محول الوحدات الذكي',
+          text: 'استخدم هذا النظام لتحويل الوحدات بدقة وسرعة عالية.',
+          url: window.location.href
+        });
+      } else {
+        alert("ميزة المشاركة غير مدعومة في هذا المتصفح.");
+      }
+    }
+    // خاصية تبديل اللغة
+    const langToggle = document.getElementById('langToggle');
+    langToggle.addEventListener('click', function () {
+      const currentLang = document.body.getAttribute('data-lang');
+      const newLang = currentLang === 'ar' ? 'en' : 'ar';
+      document.body.setAttribute('data-lang', newLang);
+      document.querySelectorAll('[data-ar]').forEach(el => {
+        el.innerHTML = newLang === 'ar' ? el.getAttribute('data-ar') : el.getAttribute('data-en');
+      });
+      langToggle.innerHTML = newLang === 'ar' ? langToggle.getAttribute('data-ar') : langToggle.getAttribute('data-en');
+    });
+    // زر تبديل الوضع الليلي
+    const modeToggle = document.getElementById('modeToggle');
+    modeToggle.addEventListener('click', function () {
+      document.body.classList.toggle('night-mode');
+      if(document.body.classList.contains('night-mode')){
+        modeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+      } else {
+        modeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+      }
+    });
+    // زر إعدادات النص
+    const settingsToggle = document.getElementById('settingsToggle');
+    settingsToggle.addEventListener('click', function () {
+      $('#settingsModal').modal('show');
+    });
+    function applySettings() {
+      const textSize = document.getElementById('textSizeSelect').value;
+      const font = document.getElementById('fontSelect').value;
+      document.body.style.fontSize = textSize;
+      document.body.style.fontFamily = font;
+      $('#settingsModal').modal('hide');
+    }
+    // زر الهامبرغر لتبديل القائمة في الهواتف
+    document.querySelector('.hamburger').addEventListener('click', function () {
+      const nav = document.querySelector('.tab-container');
+      nav.style.display = (nav.style.display === "flex") ? "none" : "flex";
+    });
+  </script>
+</body>
+</html>
